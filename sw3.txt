@@ -1,0 +1,111 @@
+enable
+configure terminal
+hostname SW-03
+banner motd "acesso apenas para pessoas autorizadas"
+enable secret SenhadaEnable
+ip domain-name rede3.local
+crypto key generate rsa general-keys modulus 1024
+username administrador privilege 15 secret SenhaAdmin
+username estagiario privilege 1 secret SenhaEst
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+transport input ssh
+exec-timeout 10
+login local
+exit
+vlan 80
+name financas
+vlan 60
+name operacoes
+vlan 88 
+name relogios
+vlan 100
+name livre
+exit
+interface f0/1
+switchport mode access
+switchport access vlan 80
+interface f0/2
+switchport mode access
+switchport access vlan 80
+interface f0/3
+switchport mode access
+switchport access vlan 80
+interface f0/4
+switchport mode access
+switchport access vlan 80
+interface f0/5
+switchport mode access
+switchport access vlan 80
+interface f0/6
+switchport mode access
+switchport access vlan 60
+interface f0/7
+switchport mode access
+switchport access vlan 60
+interface f0/8
+switchport mode access
+switchport access vlan 60
+interface f0/9
+switchport mode access
+switchport access vlan 60
+interface f0/10
+switchport mode access
+switchport access vlan 88
+interface f0/11
+switchport mode access
+switchport access vlan 88
+interface f0/12
+switchport mode access
+switchport access vlan 88
+interface f0/13
+switchport mode access
+switchport access vlan 88
+interface f0/14
+switchport mode access
+switchport access vlan 88
+interface f0/15
+switchport mode access
+switchport access vlan 88
+interface f0/16
+switchport mode access
+switchport access vlan 88
+interface f0/17
+switchport mode access
+switchport access vlan 88
+interface f0/18
+switchport mode access
+switchport access vlan 88
+interface f0/19
+switchport mode access
+switchport access vlan 88
+interface f0/20
+switchport mode access
+switchport access vlan 100
+interface f0/24
+switchport mode access
+switchport access vlan 100
+interface f0/22
+switchport mode access
+switchport access vlan 100
+interface f0/21
+switchport mode access
+switchport access vlan 100
+interface f0/23
+switchport mode access
+switchport access vlan 100
+exit
+interface vlan 1
+ip address 192.168.39.254 255.255.248.0
+description interface de gerenciamento
+no shutdown
+exit
+ip default-gateway 192.168.32.1 
+interface g0/1
+switchport mode trunk
+switchport trunk allowed vlan 60,80,88,100

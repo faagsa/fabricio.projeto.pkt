@@ -1,0 +1,71 @@
+enable
+configure terminal
+hostname RT-02
+banner motd "acesso apenas para pessoas autorizadas"
+enable secret SenhadaEnable
+ip domain-name rede2.local
+crypto key generate rsa general-keys modulus 1024
+username administrador privilege 15 secret SenhaAdmin
+username estagiario privilege 1 secret SenhaEst
+interface gigabitethernet 0/1
+ip address 10.0.0.1 255.0.0.0
+description INTERFACE DE GERENCIAMENTO
+no shutdown
+exit
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+transport input ssh
+exec-timeout 10
+login local
+exit
+interface g0/1.50
+encapsulation dot1q 50
+ip address 10.0.0.1 255.255.128.0
+interface g0/1.60
+encapsulation dot1q 60
+ip address 10.0.128.1 255.255.224.0
+interface g0/1.70
+encapsulation dot1q 70
+ip address 10.0.160.1 255.255.252.0
+interface g0/1.80
+encapsulation dot1q 80
+ip address 10.0.164.11 255.255.255.0
+interface g0/1
+no shutdown
+exit
+interface serial 0/0/0
+ip address 201.187.89.9 255.255.255.252
+no shutdown
+exit
+interface serial 0/1/1
+ip address 201.187.89.17 255.255.255.252
+no shutdown
+exit
+interface serial 0/0/1
+ip address 201.187.89.6 255.255.255.252
+no shutdown
+exit
+ip route 201.187.89.0 255.255.255.252 201.187.89.5
+ip route 201.187.89.0 255.255.255.252 201.187.89.10
+ip route 201.187.89.0 255.255.255.252 201.187.89.18
+ip route 201.187.89.20 255.255.255.252 201.187.89.5
+ip route 201.187.89.20 255.255.255.252 201.187.89.10
+ip route 201.187.89.20 255.255.255.252 201.187.89.18
+ip route 201.187.89.12 255.255.255.252 201.187.89.5
+ip route 201.187.89.12 255.255.255.252 201.187.89.10
+ip route 201.187.89.12 255.255.255.252 201.187.89.18
+ip route 192.168.0.0 255.255.224.0 201.187.89.5
+ip route 192.168.0.0 255.255.224.0 201.187.89.18
+ip route 192.168.0.0 255.255.224.0 201.187.89.10
+ip route 192.168.32.0 255.255.248.0 201.187.89.10
+ip route 192.168.32.0 255.255.248.0 201.187.89.18
+ip route 192.168.32.0 255.255.248.0 201.187.89.5
+ip route 172.16.0.0 255.240.0.0 201.187.89.10
+ip route 172.16.0.0 255.240.0.0 201.187.89.18
+ip route 172.16.0.0 255.240.0.0 201.187.89.5
+do wr
